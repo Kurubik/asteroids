@@ -1,0 +1,31 @@
+{
+  "name": "@asteroid-storm/server",
+  "version": "1.0.0",
+  "description": "Server for Asteroid Storm Online",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "debug": "tsx --inspect src/index.ts"
+  },
+  "dependencies": {
+    "@asteroid-storm/shared": "workspace:*",
+    "ws": "^8.14.2",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.6",
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.14",
+    "@types/compression": "^1.7.3",
+    "@types/node": "^20.6.3",
+    "tsx": "^3.12.10",
+    "typescript": "^5.0.0"
+  }
+}

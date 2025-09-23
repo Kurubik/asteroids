@@ -1,0 +1,163 @@
+/* Additional styles for the game */
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+#gameContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Retro scanline effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  background: linear-gradient(
+    transparent 50%, 
+    rgba(0, 255, 0, 0.02) 50%
+  );
+  background-size: 100% 4px;
+}
+
+/* Glow effects */
+.glow {
+  box-shadow: 
+    0 0 5px #00ff00,
+    0 0 10px #00ff00,
+    0 0 15px #00ff00,
+    0 0 20px #00ff00;
+}
+
+/* Error messages */
+.error {
+  color: #ff6666 !important;
+  border-color: #ff6666 !important;
+  text-shadow: 0 0 10px #ff6666 !important;
+}
+
+/* Success messages */
+.success {
+  color: #66ff66 !important;
+  border-color: #66ff66 !important;
+  text-shadow: 0 0 10px #66ff66 !important;
+}
+
+/* Warning messages */
+.warning {
+  color: #ffff66 !important;
+  border-color: #ffff66 !important;
+  text-shadow: 0 0 10px #ffff66 !important;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 2px solid transparent;
+  border-top: 2px solid #00ff00;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  #hud {
+    font-size: 14px;
+  }
+  
+  #joinMenu {
+    width: 90%;
+    padding: 20px;
+  }
+  
+  #joinMenu input {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  #joinMenu button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  #playerList {
+    right: 10px;
+    top: 10px;
+    min-width: 150px;
+  }
+  
+  #controls {
+    bottom: 10px;
+    left: 10px;
+    font-size: 10px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00cc00;
+}
