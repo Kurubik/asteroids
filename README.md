@@ -52,7 +52,7 @@ npm install -g pnpm
    pnpm dev
    ```
 
-This starts both the client (http://localhost:5173) and server (ws://localhost:3002).
+This starts both the client (http://localhost:5173) and server (ws://localhost:3011).
 
 ### Production Build
 
@@ -60,8 +60,11 @@ This starts both the client (http://localhost:5173) and server (ws://localhost:3
 # Build all packages
 pnpm build
 
-# Start production server
+# Start production server (simple)
 pnpm start
+
+# Or deploy with PM2 (recommended)
+pnpm deploy
 ```
 
 ## 🎯 How to Play
@@ -213,22 +216,107 @@ pnpm --filter server dev    # Start server only
 pnpm --filter client dev    # Start client only
 ```
 
-### Production
+### Production Deployment
+
+#### Quick Production Setup
+
+1. **On your server**, clone and setup:
+   ```bash
+   git clone https://github.com/Kurubik/asteroids.git
+   cd asteroids
+   pnpm production-setup
+   ```
+
+2. **Edit environment** for your server:
+   ```bash
+   # Edit .env file - replace localhost with your server IP
+   nano .env
+   ```
+
+3. **Deploy with PM2**:
+   ```bash
+   pnpm deploy
+   ```
+
+#### Manual Production Setup
 
 1. **Build the project**:
    ```bash
    pnpm build
    ```
 
-2. **Start production server**:
+2. **Start with PM2** (recommended):
+   ```bash
+   # Install PM2 globally
+   npm install -g pm2
+   
+   # Start with PM2
+   pnpm pm2:start
+   
+   # Monitor
+   pnpm pm2:monit
+   ```
+
+3. **Or start simple** (not recommended for production):
    ```bash
    pnpm start
    ```
 
-3. **Environment Setup**:
-   - Update WebSocket URLs for production
-   - Configure reverse proxy (nginx recommended)
-   - Set up SSL certificates for WSS
+#### PM2 Commands
+
+```bash
+pnpm pm2:start     # Start server with PM2
+pnpm pm2:stop      # Stop server
+pnpm pm2:restart   # Restart server
+pnpm pm2:logs      # View logs
+pnpm pm2:monit     # Monitor performance
+```
+
+#### Environment Configuration
+
+The server now runs on ports **3010-3011** by default and binds to **0.0.0.0** for remote access.
+
+**For production**, update your `.env` file:
+```bash
+# Server Configuration
+PORT=3010
+WS_PORT=3011
+HOST=0.0.0.0
+
+# Client URLs (replace with your server IP/domain)
+VITE_WS_URL=ws://your-server-ip:3011
+VITE_API_URL=http://your-server-ip:3010
+```
+
+#### Nginx Reverse Proxy (Optional)
+
+For production with SSL, use the provided `nginx.conf.example`:
+
+1. **Copy nginx config**:
+   ```bash
+   sudo cp nginx.conf.example /etc/nginx/sites-available/asteroid-storm
+   sudo ln -s /etc/nginx/sites-available/asteroid-storm /etc/nginx/sites-enabled/
+   ```
+
+2. **Update the config** with your domain and SSL certificates
+
+3. **Restart nginx**:
+   ```bash
+   sudo systemctl restart nginx
+   ```
+
+#### Firewall Setup
+
+Open the required ports:
+```bash
+# For direct access
+sudo ufw allow 3010
+sudo ufw allow 3011
+
+# For nginx proxy (if using)
+sudo ufw allow 80
+sudo ufw allow 443
+```
 
 ### Docker (Optional)
 

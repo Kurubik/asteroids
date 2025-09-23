@@ -14,8 +14,9 @@ const logger = new Logger('Server');
 
 // Server configuration
 const serverConfig: ServerConfig = {
-  port: parseInt(process.env.PORT || '3001'),
-  wsPort: parseInt(process.env.WS_PORT || '3002'),
+  port: parseInt(process.env.PORT || '3010'),
+  wsPort: parseInt(process.env.WS_PORT || '3011'),
+  host: process.env.HOST || '0.0.0.0',
   tickRate: parseInt(process.env.TICK_RATE || '60'),
   maxPlayersPerRoom: parseInt(process.env.MAX_PLAYERS_PER_ROOM || '8'),
   maxRooms: parseInt(process.env.MAX_ROOMS || '100'),
@@ -78,9 +79,9 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 });
 
 // Start HTTP server
-const httpServer = app.listen(serverConfig.port, () => {
-  logger.info(`HTTP server listening on port ${serverConfig.port}`);
-  logger.info(`WebSocket server listening on port ${serverConfig.wsPort}`);
+const httpServer = app.listen(serverConfig.port, serverConfig.host, () => {
+  logger.info(`HTTP server listening on ${serverConfig.host}:${serverConfig.port}`);
+  logger.info(`WebSocket server listening on ${serverConfig.host}:${serverConfig.wsPort}`);
   logger.info(`Game tick rate: ${serverConfig.tickRate} Hz`);
   logger.info(`Max players per room: ${serverConfig.maxPlayersPerRoom}`);
   logger.info(`Max rooms: ${serverConfig.maxRooms}`);

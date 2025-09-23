@@ -30,6 +30,7 @@ export interface RoomState {
 export interface ServerConfig {
   port: number;
   wsPort: number;
+  host: string;
   tickRate: number;
   maxPlayersPerRoom: number;
   maxRooms: number;

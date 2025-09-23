@@ -19,6 +19,7 @@ export class WebSocketServer {
     
     this.wss = new WSServer({
       port: config.wsPort,
+      host: config.host,
       perMessageDeflate: {
         zlibDeflateOptions: {
           level: 3,
@@ -33,7 +34,7 @@ export class WebSocketServer {
     this.setupEventHandlers();
     this.startHeartbeat();
 
-    this.logger.info(`WebSocket server listening on port ${config.wsPort}`);
+    this.logger.info(`WebSocket server listening on ${config.host}:${config.wsPort}`);
   }
 
   private setupMessageHandlers(): void {
