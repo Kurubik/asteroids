@@ -16,6 +16,8 @@ module.exports = {
         TICK_RATE: 60,
         MAX_PLAYERS_PER_ROOM: 8,
         MAX_ROOMS: 100,
+        VITE_WS_URL: 'ws://134.209.227.100:3011',
+        VITE_API_URL: 'http://134.209.227.100:3010',
       },
       
       // Development environment
@@ -59,8 +61,8 @@ module.exports = {
   
   deploy: {
     production: {
-      user: 'ubuntu',
-      host: ['your-server-ip'],
+      user: 'root',
+      host: ['134.209.227.100'],
       ref: 'origin/main',
       repo: 'https://github.com/Kurubik/asteroids.git',
       path: '/var/www/asteroid-storm',

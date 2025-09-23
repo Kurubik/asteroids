@@ -52,7 +52,7 @@ npm install -g pnpm
    pnpm dev
    ```
 
-This starts both the client (http://localhost:5173) and server (ws://localhost:3011).
+This starts both the client (http://localhost:5175) and server (ws://localhost:3011).
 
 ### Production Build
 
@@ -283,10 +283,18 @@ PORT=3010
 WS_PORT=3011
 HOST=0.0.0.0
 
-# Client URLs (replace with your server IP/domain)
-VITE_WS_URL=ws://your-server-ip:3011
-VITE_API_URL=http://your-server-ip:3010
+# Client URLs for production server
+VITE_WS_URL=ws://134.209.227.100:3011
+VITE_API_URL=http://134.209.227.100:3010
 ```
+
+### 🌐 Live Demo Server
+
+A production instance is running at:
+- **Game URL**: http://134.209.227.100:3010
+- **WebSocket**: ws://134.209.227.100:3011
+
+Try it out by visiting the game URL and playing with others online!
 
 #### Nginx Reverse Proxy (Optional)
 
