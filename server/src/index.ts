@@ -23,7 +23,7 @@ const serverConfig: ServerConfig = {
 };
 
 // Create Express app
-const app = express();
+const app: express.Express = express();
 
 // Middleware
 app.use(helmet({

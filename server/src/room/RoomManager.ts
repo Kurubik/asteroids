@@ -7,7 +7,7 @@ export class RoomManager {
   private rooms = new Map<string, Room>();
   private roomCodes = new Map<string, string>(); // code -> roomId
   private logger: Logger;
-  private cleanupInterval: NodeJS.Timer;
+  private cleanupInterval: NodeJS.Timeout;
 
   constructor(private config: ServerConfig) {
     this.logger = new Logger('RoomManager');

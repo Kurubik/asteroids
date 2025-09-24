@@ -21,8 +21,8 @@ export class Room {
   public isActive = false;
   public createdAt = Date.now();
   
-  private tickInterval: NodeJS.Timer | null = null;
-  private snapshotInterval: NodeJS.Timer | null = null;
+  private tickInterval: NodeJS.Timeout | null = null;
+  private snapshotInterval: NodeJS.Timeout | null = null;
   private logger: Logger;
 
   constructor(id: string) {

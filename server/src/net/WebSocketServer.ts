@@ -11,7 +11,7 @@ export class WebSocketServer {
   private roomManager: RoomManager;
   private messageHandlers = new Map<string, MessageHandler['handler']>();
   private logger: Logger;
-  private heartbeatInterval: NodeJS.Timer;
+  private heartbeatInterval: NodeJS.Timeout | undefined;
 
   constructor(private config: ServerConfig) {
     this.logger = new Logger('WebSocketServer');
@@ -232,7 +232,9 @@ export class WebSocketServer {
       this.logger.info('Shutting down WebSocket server...');
 
       // Clear heartbeat
-      clearInterval(this.heartbeatInterval);
+      if (this.heartbeatInterval) {
+        clearInterval(this.heartbeatInterval);
+      }
 
       // Shutdown room manager
       this.roomManager.shutdown();
