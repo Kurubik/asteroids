@@ -7,7 +7,6 @@ import {
   updatePlayerMovement,
   GAME_CONFIG 
 } from '@shared/index.js';
-import { CircularBuffer } from '@shared/index.js';
 
 interface PredictionInput {
   sequence: number;
@@ -18,7 +17,7 @@ interface PredictionInput {
 
 export class ClientPrediction {
   private playerId?: string;
-  private inputBuffer = new CircularBuffer<PredictionInput>(60);
+  private inputBuffer: PredictionInput[] = [];
   private sequenceNumber = 0;
   private lastAcknowledgedSequence = 0;
   private predictedState: Partial<Player> | null = null;
@@ -40,6 +39,11 @@ export class ClientPrediction {
     };
 
     this.inputBuffer.push(inputEntry);
+    
+    // Keep buffer size reasonable
+    if (this.inputBuffer.length > 60) {
+      this.inputBuffer.shift();
+    }
   }
 
   reconcile(snapshot: SnapshotData): void {
@@ -53,14 +57,9 @@ export class ClientPrediction {
     // This would normally come from a separate ack message
     
     // Find unprocessed inputs after the server's acknowledged state
-    const unprocessedInputs: PredictionInput[] = [];
-    
-    for (let i = 0; i < this.inputBuffer.length; i++) {
-      const input = this.inputBuffer.get(i);
-      if (input && input.sequence > this.lastAcknowledgedSequence) {
-        unprocessedInputs.push(input);
-      }
-    }
+    const unprocessedInputs: PredictionInput[] = this.inputBuffer.filter(
+      input => input.sequence > this.lastAcknowledgedSequence
+    );
 
     // Start with server's authoritative state
     this.predictedState = {
@@ -115,14 +114,10 @@ export class ClientPrediction {
     // Clean up old inputs
     const cutoffTime = Date.now() - 2000; // Keep 2 seconds of input history
     
-    while (this.inputBuffer.length > 0) {
-      const oldestInput = this.inputBuffer.get(0);
-      if (oldestInput && oldestInput.timestamp < cutoffTime) {
-        this.inputBuffer.shift();
-      } else {
-        break;
-      }
-    }
+    // Remove old inputs from the buffer
+    this.inputBuffer = this.inputBuffer.filter(
+      input => input.timestamp > cutoffTime
+    );
   }
 
   getPredictedState(gameState: GameState): GameState {
