@@ -97,7 +97,8 @@ export class GameWorld {
       player.id,
       bulletStartPos,
       bulletDirection,
-      currentTime
+      currentTime,
+      player.velocity.linear
     );
     
     this.bullets.set(bullet.id, bullet);

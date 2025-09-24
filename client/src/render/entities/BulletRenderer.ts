@@ -4,7 +4,7 @@ import { Bullet, RENDER_CONFIG } from '@shared/index.js';
 export class BulletRenderer {
   private scene: THREE.Scene;
   private bulletMeshes = new Map<string, THREE.Mesh>();
-  private geometry: THREE.BufferGeometry;
+  private geometry!: THREE.BufferGeometry;
   private material: THREE.PointsMaterial;
   private instancedMesh: THREE.InstancedMesh | null = null;
   private maxBullets = 100;
@@ -38,7 +38,7 @@ export class BulletRenderer {
     this.geometry = new THREE.BufferGeometry().setFromPoints(points);
   }
 
-  update(bullets: Bullet[], deltaTime: number): void {
+  update(bullets: Bullet[], _deltaTime: number): void {
     if (!this.instancedMesh) return;
 
     const matrix = new THREE.Matrix4();

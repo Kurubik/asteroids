@@ -3,14 +3,12 @@ import { NetworkManager } from '../net/NetworkManager.js';
 import { InputManager } from './InputManager.js';
 import { GameStateManager } from './GameStateManager.js';
 import { UIManager } from '../ui/UIManager.js';
+import { MobileControls } from '../ui/MobileControls.js';
 import { AudioManager } from '../audio/AudioManager.js';
 import { ClientPrediction } from './ClientPrediction.js';
 import { 
   GameState, 
-  Player, 
-  InputState, 
-  GAME_CONFIG, 
-  RENDER_CONFIG 
+  InputState 
 } from '@shared/index.js';
 
 export class Game {
@@ -22,6 +20,7 @@ export class Game {
   private ui: UIManager;
   private audio: AudioManager;
   private prediction: ClientPrediction;
+  private mobileControls?: MobileControls;
 
   private isRunning = false;
   private isPaused = false;
@@ -60,6 +59,9 @@ export class Game {
       await this.audio.init();
       this.ui.init();
       this.input.init();
+      // Initialize mobile controls if on touch device
+      this.mobileControls = new MobileControls(this.input);
+      this.mobileControls.init();
 
       // Setup network event handlers
       this.setupNetworkHandlers();
@@ -251,10 +253,12 @@ export class Game {
     const state = this.gameState.getCurrentState();
     
     // Apply client prediction for local player
-    const predictedState = this.prediction.getPredictedState(state);
+    const predictedState = state ? this.prediction.getPredictedState(state) : null;
     
     // Render the game
-    this.renderer.render(predictedState, deltaTime);
+    if (predictedState) {
+      this.renderer.render(predictedState, deltaTime);
+    }
   }
 
   private updateFPS(currentTime: number): void {

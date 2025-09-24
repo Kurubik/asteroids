@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GameState, Player, Asteroid, Bullet, Particle, GAME_CONFIG, RENDER_CONFIG } from '@shared/index.js';
+import { GameState, RENDER_CONFIG } from '@shared/index.js';
 import { ShipRenderer } from './entities/ShipRenderer.js';
 import { AsteroidRenderer } from './entities/AsteroidRenderer.js';
 import { BulletRenderer } from './entities/BulletRenderer.js';

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => game.resize());
 
   // Handle beforeunload
-  window.addEventListener('beforeunload', (event) => {
+  window.addEventListener('beforeunload', () => {
     game.destroy();
   });
 

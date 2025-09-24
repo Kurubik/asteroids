@@ -11,14 +11,14 @@ export class ParticleRenderer {
   }
 
   async init(): Promise<void> {
-    this.createParticleSystem(ParticleType.THRUST, RENDER_CONFIG.COLORS.THRUST);
-    this.createParticleSystem(ParticleType.EXPLOSION, RENDER_CONFIG.COLORS.EXPLOSION);
-    this.createParticleSystem(ParticleType.BULLET_HIT, RENDER_CONFIG.COLORS.BULLET);
+    this.createParticleSystem(ParticleType.THRUST);
+    this.createParticleSystem(ParticleType.EXPLOSION);
+    this.createParticleSystem(ParticleType.BULLET_HIT);
 
     console.log('ParticleRenderer initialized');
   }
 
-  private createParticleSystem(type: ParticleType, color: number): void {
+  private createParticleSystem(type: ParticleType): void {
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(this.maxParticles * 3);
     const colors = new Float32Array(this.maxParticles * 3);
@@ -45,7 +45,7 @@ export class ParticleRenderer {
     this.scene.add(particleSystem);
   }
 
-  update(particles: Particle[], deltaTime: number): void {
+  update(particles: Particle[], _deltaTime: number): void {
     // Group particles by type
     const particlesByType = new Map<ParticleType, Particle[]>();
     

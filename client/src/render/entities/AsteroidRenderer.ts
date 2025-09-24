@@ -3,7 +3,7 @@ import { Asteroid, AsteroidSize, RENDER_CONFIG } from '@shared/index.js';
 
 export class AsteroidRenderer {
   private scene: THREE.Scene;
-  private asteroidMeshes = new Map<string, THREE.Mesh>();
+  private asteroidMeshes = new Map<string, THREE.Line>();
   private geometries = new Map<AsteroidSize, THREE.BufferGeometry>();
   private material: THREE.LineBasicMaterial;
 
@@ -43,7 +43,7 @@ export class AsteroidRenderer {
     this.geometries.set(size, geometry);
   }
 
-  update(asteroids: Asteroid[], deltaTime: number): void {
+  update(asteroids: Asteroid[], _deltaTime: number): void {
     // Remove meshes for asteroids that no longer exist
     for (const [asteroidId, mesh] of this.asteroidMeshes) {
       if (!asteroids.find(a => a.id === asteroidId)) {

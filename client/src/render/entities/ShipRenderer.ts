@@ -3,8 +3,8 @@ import { Player, RENDER_CONFIG } from '@shared/index.js';
 
 export class ShipRenderer {
   private scene: THREE.Scene;
-  private shipMeshes = new Map<string, THREE.Mesh>();
-  private shipGeometry: THREE.BufferGeometry;
+  private shipMeshes = new Map<string, THREE.Line>();
+  private shipGeometry!: THREE.BufferGeometry;
   private shipMaterial: THREE.LineBasicMaterial;
 
   constructor(scene: THREE.Scene) {
@@ -32,7 +32,7 @@ export class ShipRenderer {
     this.shipGeometry = new THREE.BufferGeometry().setFromPoints(points);
   }
 
-  update(players: Player[], deltaTime: number): void {
+  update(players: Player[], _deltaTime: number): void {
     // Remove meshes for players that no longer exist
     for (const [playerId, mesh] of this.shipMeshes) {
       if (!players.find(p => p.id === playerId)) {
@@ -45,14 +45,12 @@ export class ShipRenderer {
     for (const player of players) {
       if (!player.isAlive) continue;
 
-      let mesh = this.shipMeshes.get(player.id);
-      
-      if (!mesh) {
-        // Create new ship mesh
-        mesh = new THREE.Line(this.shipGeometry, this.shipMaterial);
-        this.shipMeshes.set(player.id, mesh);
-        this.scene.add(mesh);
-      }
+      const mesh = this.shipMeshes.get(player.id) ?? (() => {
+        const m = new THREE.Line(this.shipGeometry, this.shipMaterial);
+        this.shipMeshes.set(player.id, m);
+        this.scene.add(m);
+        return m;
+      })();
 
       // Update position and rotation
       mesh.position.set(

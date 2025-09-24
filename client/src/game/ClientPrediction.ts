@@ -2,8 +2,7 @@ import {
   InputState, 
   Player, 
   GameState, 
-  SnapshotData, 
-  Vec2,
+  SnapshotData,
   updatePlayerMovement,
   GAME_CONFIG 
 } from '@shared/index.js';
@@ -110,7 +109,7 @@ export class ClientPrediction {
     player.velocity.angular = playerCopy.velocity.angular;
   }
 
-  update(deltaTime: number): void {
+  update(_deltaTime: number): void {
     // Clean up old inputs
     const cutoffTime = Date.now() - 2000; // Keep 2 seconds of input history
     

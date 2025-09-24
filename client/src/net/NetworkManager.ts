@@ -35,7 +35,7 @@ export class NetworkManager {
 
     this.isConnecting = true;
     
-    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:3002';
+    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:3011';
     
     return new Promise((resolve, reject) => {
       try {

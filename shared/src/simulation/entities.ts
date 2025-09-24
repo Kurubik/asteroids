@@ -63,11 +63,14 @@ export function createAsteroid(
 }
 
 export function createBullet(
-  playerId: string, 
-  position: Vector2, 
-  direction: Vector2, 
-  timestamp: number
+  playerId: string,
+  position: Vector2,
+  direction: Vector2,
+  timestamp: number,
+  inheritVelocity?: Vector2
 ): Bullet {
+  const baseVel = Vec2.multiply(Vec2.normalize(direction), PLAYER_CONFIG.BULLET_SPEED);
+  const initialVel = inheritVelocity ? Vec2.add(baseVel, inheritVelocity) : baseVel;
   return {
     id: generateId(),
     playerId,
@@ -75,7 +78,7 @@ export function createBullet(
       position: { ...position },
       rotation: Vec2.angle(direction),
     },
-    velocity: Vec2.multiply(Vec2.normalize(direction), PLAYER_CONFIG.BULLET_SPEED),
+    velocity: initialVel,
     createdAt: timestamp,
     lifetime: PLAYER_CONFIG.BULLET_LIFETIME,
   };
@@ -115,13 +118,13 @@ export function updatePlayerMovement(
     transform.rotation += input.rotate * PLAYER_CONFIG.ROTATION_SPEED * deltaTime;
   }
   
-  // Apply thrust
+  // Apply thrust - proper space physics with momentum conservation
   if (input.thrust) {
     const thrustVector = Vec2.fromAngle(transform.rotation, PLAYER_CONFIG.ACCELERATION * deltaTime);
     velocity.linear = Vec2.add(velocity.linear, thrustVector);
   }
   
-  // Apply braking
+  // Apply braking - gradual deceleration like reverse thrust
   if (input.brake) {
     const speed = Vec2.length(velocity.linear);
     if (speed > 0) {
@@ -132,10 +135,11 @@ export function updatePlayerMovement(
     }
   }
   
-  // Limit maximum speed
+  // In space, there's no natural friction - objects maintain momentum
+  // Only limit speed to prevent infinite acceleration
   velocity.linear = Vec2.limitLength(velocity.linear, PLAYER_CONFIG.MAX_SPEED);
   
-  // Update position
+  // Update position based on current velocity (momentum is preserved)
   const deltaPos = Vec2.multiply(velocity.linear, deltaTime);
   transform.position = Vec2.add(transform.position, deltaPos);
   

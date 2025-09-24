@@ -199,7 +199,7 @@ export class AudioManager {
     }
   }
 
-  update(deltaTime: number): void {
+  update(_deltaTime: number): void {
     // Resume audio context if suspended (needed for some browsers)
     if (this.audioContext?.state === 'suspended') {
       this.audioContext.resume();

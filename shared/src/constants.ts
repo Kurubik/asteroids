@@ -17,18 +17,18 @@ export const GAME_CONFIG = {
 
 export const PLAYER_CONFIG = {
   RADIUS: 8,
-  MAX_SPEED: 400,
-  ACCELERATION: 800,
-  BRAKE_DECELERATION: 600,
-  ROTATION_SPEED: 5, // rad/s
+  MAX_SPEED: 420,
+  ACCELERATION: 320,
+  BRAKE_DECELERATION: 180, // gentler braking for more drift
+  ROTATION_SPEED: 5.2, // rad/s - snappier rotation like classic Asteroids
   
   MAX_HEALTH: 100,
   MAX_LIVES: 3,
   INVULNERABILITY_TIME: 2000, // ms
   
-  FIRE_RATE: 200, // ms between shots
-  BULLET_SPEED: 600,
-  BULLET_LIFETIME: 2000, // ms
+  FIRE_RATE: 120, // ms between shots
+  BULLET_SPEED: 900,
+  BULLET_LIFETIME: 3000, // ms, bullets travel further
 } as const;
 
 export const ASTEROID_CONFIG = {
